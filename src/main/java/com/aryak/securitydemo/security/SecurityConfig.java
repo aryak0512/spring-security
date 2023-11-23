@@ -30,5 +30,17 @@ public class SecurityConfig {
 		return http.getSharedObject(AuthenticationManagerBuilder.class).userDetailsService(userDetailsService)
 				.passwordEncoder(bCryptPasswordEncoder).and().build();
 	}
+	
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    
+		return http
+	            .authorizeHttpRequests().antMatchers("/v2/**").authenticated().and().httpBasic()
+	            .and()
+	            .authorizeHttpRequests().antMatchers("/v1/**").permitAll()
+	            .and()
+	            .build();
+	}
 
 }
